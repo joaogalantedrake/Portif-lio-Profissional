@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfólio de Desenvolvedor Back-End especializado em Java, Spring Boot e Oracle.">
+    <meta name="author" content="Nome do Profissional">
+    <title>Nome do Profissional | Desenvolvedor Back-End</title>
+</head>
+<body>
+
+    <!-- CABEÇALHO E NAVEGAÇÃO -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre Mim</a></li>
+                <li><a href="#habilidades">Habilidades</a></li>
+                <li><a href="#projetos">Projetos</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SEÇÃO 1: APRESENTAÇÃO DIRETA -->
+        <section id="inicio">
+            <h1>Nome do Profissional</h1>
+            <h2>Desenvolvedor Back-End Java | Spring Boot | Oracle</h2>
+            <p>Especialista em desenvolvimento de APIs RESTful, microsserviços e otimização de bancos de dados relacionais.</p>
+            <p>
+                <a href="#contato">Entrar em Contato</a> | 
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a> | 
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </p>
+        </section>
+
+        <!-- SEÇÃO 2: SOBRE MIM -->
+        <section id="sobre">
+            <h2>Sobre Mim</h2>
+            <p>Desenvolvedor Back-End focado em criar soluções escaláveis e de alta performance. Com sólida base acadêmica e experiência em ecossistema Java, atuo na construção de arquiteturas limpas e integração de sistemas robustos.</p>
+            
+            <h3>Trajetória Acadêmica</h3>
+            <ul>
+                <li><strong>Bacharelado em Ciência da Computação / Engenharia de Software</strong> — Universidade (Ano de Conclusão)</li>
+                <li><strong>Certificação Java SE Programmer</strong> — Oracle (Ano)</li>
+            </ul>
+
+            <h3>Trajetória Profissional</h3>
+            <ul>
+                <li><strong>Desenvolvedor Back-End</strong> — Empresa X (Ano – Atual)<br>
+                Desenvolvimento e manutenção de microsserviços em Spring Boot, integração com Oracle DB e mensageria.</li>
+            </ul>
+        </section>
+
+        <!-- SEÇÃO 3: HABILIDADES TÉCNICAS -->
+        <section id="habilidades">
+            <h2>Habilidades Técnicas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Tecnologias</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Linguagens</td>
+                        <td>Java (8, 11, 17, 21), SQL</td>
+                    </tr>
+                    <tr>
+                        <td>Frameworks & Bibliotecas</td>
+                        <td>Spring Boot, Spring MVC, Spring Data JPA, Spring Security, Hibernate</td>
+                    </tr>
+                    <tr>
+                        <td>Bancos de Dados</td>
+                        <td>Oracle DB, PostgreSQL, MySQL</td>
+                    </tr>
+                    <tr>
+                        <td>Ferramentas & Outros</td>
+                        <td>Git, Docker, Maven, Gradle, JUnit, Mockito, Swagger/OpenAPI, REST API</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SEÇÃO 4: GALERIA DE PROJETOS -->
+        <section id="projetos">
+            <h2>Projetos em Destaque</h2>
+
+            <!-- Projeto 1 -->
+            <article>
+                <h3>API RESTful de Gestão Financeira</h3>
+                <p>Sistema completo de gerenciamento de transações bancárias com autenticação JWT, controle de acesso por perfis e geração de relatórios.</p>
+                <p><strong>Tecnologias:</strong> Java 17, Spring Boot, Spring Security, Oracle DB, Docker.</p>
+                <p><a href="https://github.com/usuario/projeto-financeiro" target="_blank" rel="noopener noreferrer">Ver código no GitHub</a></p>
+            </article>
+
+            <!-- Projeto 2 -->
+            <article>
+                <h3>Microsserviço de Processamento de Pedidos</h3>
+                <p>Arquitetura baseada em microsserviços voltada ao e-commerce, com suporte a alto volume de requisições e persistência relacional otimizada.</p>
+                <p><strong>Tecnologias:</strong> Java 11, Spring Cloud, Oracle DB, Flyway, JUnit 5.</p>
+                <p><a href="https://github.com/usuario/projeto-pedidos" target="_blank" rel="noopener noreferrer">Ver código no GitHub</a></p>
+            </article>
+
+            <!-- Projeto 3 -->
+            <article>
+                <h3>Sistema de Agendamento e Notificações</h3>
+                <p>API para agendamento de serviços com integração de banco de dados Oracle, rotinas assíncronas e documentação via Swagger.</p>
+                <p><strong>Tecnologias:</strong> Java 17, Spring Boot, Spring Data JPA, Oracle DB, OpenAPI 3.</p>
+                <p><a href="https://github.com/usuario/projeto-agendamento" target="_blank" rel="noopener noreferrer">Ver código no GitHub</a></p>
+            </article>
+        </section>
+
+        <!-- SEÇÃO 5: CONTATO -->
+        <section id="contato">
+            <h2>Contato</h2>
+            <p>Se você é recrutador ou busca um desenvolvedor back-end para seu time, envie uma mensagem abaixo:</p>
+
+            <form action="#" method="post">
+                <p>
+                    <label for="nome">Nome Completo:</label><br>
+                    <input type="text" id="nome" name="nome" required placeholder="Seu nome">
+                </p>
+                <p>
+                    <label for="empresa">Empresa / Consultoria:</label><br>
+                    <input type="text" id="empresa" name="empresa" placeholder="Nome da empresa">
+                </p>
+                <p>
+                    <label for="email">E-mail de Contato:</label><br>
+                    <input type="email" id="email" name="email" required placeholder="seuemail@empresa.com">
+                </p>
+                <p>
+                    <label for="mensagem">Mensagem:</label><br>
+                    <textarea id="mensagem" name="mensagem" rows="5" required placeholder="Escreva os detalhes da oportunidade..."></textarea>
+                </p>
+                <p>
+                    <button type="submit">Enviar Mensagem</button>
+                </p>
+            </form>
+
+            <h3>Canais Diretos</h3>
+            <ul>
+                <li><strong>E-mail:</strong> <a href="mailto:desenvolvedor@email.com">desenvolvedor@email.com</a></li>
+                <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/usuario" target="_blank" rel="noopener noreferrer">linkedin.com/in/usuario</a></li>
+                <li><strong>GitHub:</strong> <a href="https://github.com/usuario" target="_blank" rel="noopener noreferrer">github.com/usuario</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <p>&copy; 2026 Nome do Profissional. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
