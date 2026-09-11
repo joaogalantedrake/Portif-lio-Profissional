@@ -43,6 +43,7 @@ form {
 }
 
 .meu-header{
+    color: white;
     background-color: black;
     height: 60px;
     display: flex;
