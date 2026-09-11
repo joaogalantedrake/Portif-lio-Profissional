@@ -1,20 +1,23 @@
+/* style.css */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-
 :root {
-    --fundo-site: #f4f6f9;
-    --texto-principal: #2d3748;
+    --bg: #10161b;
+    --surface: #18212a;
+    --border: #2c3b47;
+    --text: #e7edf2;
+    --text-muted: #93a4af;
+    --accent: #e8871e;
 }
 
-
 body {
-    padding: 20px;
-    font-family: sans-serif;
-    background-color: var(--fundo-site);
+    background-color: var(--bg);
+    color: var(--text);
 }
 
 
