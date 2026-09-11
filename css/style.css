@@ -145,3 +145,53 @@ footer {
 
 git add style.css
 git commit -m "style: adiciona reset CSS, paleta de cores e tipografia base"
+
+
+table {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+tbody tr:hover {
+    background-color: rgba(232, 135, 30, 0.08);
+}
+
+h3::before {
+    content: "// ";
+    color: var(--accent);
+}
+
+.foto-wrapper {
+    position: relative;
+    width: 150px;
+    margin: 0 auto 16px;
+}
+
+.foto-wrapper::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    z-index: -1;
+}
+
+.foto-wrapper img {
+    border-radius: 8px;
+    display: block;
+}
+
+footer {
+    position: relative;
+    background-color: var(--surface);
+    padding: 24px;
+    text-align: center;
+    margin-top: 32px;
+}
