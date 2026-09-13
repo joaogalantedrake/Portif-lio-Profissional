@@ -144,7 +144,6 @@ footer {
         }
 
 git add style.css
-git commit -m "style: adiciona reset CSS, paleta de cores e tipografia base"
 
 
 table {
@@ -195,6 +194,3 @@ footer {
     text-align: center;
     margin-top: 32px;
 }
-
-git add style.css
-git commit -m "style: estiliza tabela, foto e footer com pseudoclasses e posicionamento"
