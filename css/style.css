@@ -13,12 +13,21 @@
     --text: #e7edf2;
     --text-muted: #93a4af;
     --accent: #e8871e;
+    
+    /* Detalhes adicionados: Centralização de cores no tema */
+    --danger: #f44336;
+    --danger-hover: #d32f2f;
+    --success: #4caf50;
+    --success-hover: #388e3c;
+    --link-color: #ff4d4d;
+    --transition-fast: 0.2s ease-in-out;
 }
+
 body {
     background-color: var(--bg);
     color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
-
 
 h1, h2 {
     margin-top: 30px;
@@ -37,29 +46,24 @@ h4 {
 p {
     margin-bottom: 15px;
     line-height: 1.6;
+    color: var(--text-muted); /* Melhoria de contraste/hierarquia visual */
 }
 
 form {
     color: darkslategray;
     margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Organiza os elementos internos sem precisar entupir de margin-top */
 }
 
-.meu-header{
-    color: white;
-    background-color: black;
+.meu-header {
+    color: #ffffff;
+    background-color: #000000;
     height: 60px;
     display: flex;
     align-items: center;
     padding: 0 20px;
-}
-
-.lista-links a {
-    color: red !important;
-    text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 15px;
-
 }
 
 .lista-links {
@@ -67,6 +71,20 @@ form {
     gap: 25px;
     margin: 0;
     padding: 0;
+    list-style: none; /* Garante remoção de bullets caso seja uma <ul> */
+}
+
+.lista-links a {
+    color: var(--link-color) !important;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    transition: opacity var(--transition-fast);
+}
+
+.lista-links a:hover {
+    opacity: 0.8; /* Efeito hover suave no link */
 }
 
 main {
@@ -75,17 +93,26 @@ main {
     padding: 24px;
 }
 
+/* Tabelas modernizadas */
 table {
+    width: 100%; /* Boa prática para tabelas não quebrarem em telas menores */
+    border-collapse: collapse; /* Remove bordas duplas nativas do HTML */
     background-color: var(--surface);
     border: 1px solid var(--border);
 }
 
+th, td {
+    padding: 12px; /* Espaçamento interno padrão para legibilidade */
+    text-align: left;
+}
+
 tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.02);
 }
 
 tbody tr:hover {
     background-color: rgba(232, 135, 30, 0.08);
+    transition: background-color var(--transition-fast);
 }
 
 h3::before {
@@ -93,6 +120,7 @@ h3::before {
     color: var(--accent);
 }
 
+/* Componente de Foto */
 .foto-wrapper {
     position: relative;
     width: 150px;
@@ -112,6 +140,8 @@ h3::before {
 }
 
 .foto-wrapper img {
+    width: 100%; /* Impede a imagem de estourar o wrapper */
+    height: auto;
     border-radius: 8px;
     display: block;
 }
@@ -122,74 +152,36 @@ footer {
     padding: 24px;
     text-align: center;
     margin-top: 32px;
+    border-top: 1px solid var(--border);
 }
 
+/* Botões com feedbacks visuais e transições */
 .botao-limpar {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .botao-enviar {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-git add style.css
-
-
-table {
-    background-color: var(--surface);
-    border: 1px solid var(--border);
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color var(--transition-fast);
 }
 
-tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.03);
+.botao-limpar:hover {
+    background-color: var(--danger-hover);
 }
 
-tbody tr:hover {
-    background-color: rgba(232, 135, 30, 0.08);
+.botao-enviar {
+    background-color: var(--success);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color var(--transition-fast);
 }
 
-h3::before {
-    content: "// ";
-    color: var(--accent);
-}
-
-.foto-wrapper {
-    position: relative;
-    width: 150px;
-    margin: 0 auto 16px;
-}
-
-.foto-wrapper::before {
-    content: "";
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    width: 100%;
-    height: 100%;
-    border: 2px solid var(--accent);
-    border-radius: 8px;
-    z-index: -1;
-}
-
-.foto-wrapper img {
-    border-radius: 8px;
-    display: block;
-}
-
-footer {
-    position: relative;
-    background-color: var(--surface);
-    padding: 24px;
-    text-align: center;
-    margin-top: 32px;
+.botao-enviar:hover {
+    background-color: var(--success-hover);
 }
