@@ -23,27 +23,41 @@
     --transition-fast: 0.15s ease-in-out;
 }
 
+/* Scrollbar customizado para o Tema Dark */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
 body {
     background-color: var(--bg);
     color: var(--text);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    -webkit-font-smoothing: antialiased; /* Melhora a renderização das fontes em telas de alta densidade */
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Imagens globais seguras */
 img {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-h1, h2 {
-    margin-top: 30px;
-    margin-bottom: 15px;
+/* Agrupamento moderno com pseudo-classe :is() e propriedades lógicas */
+:is(h1, h2, h3) {
+    margin-block: 30px 15px; /* Define top e bottom de uma só vez */
 }
 
 h3 {
-    margin-top: 30px;
     margin-bottom: 20px;
 }
 
@@ -71,7 +85,7 @@ form {
     height: 60px;
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding-inline: 20px; /* Padding lógico para as laterais esquerda/direita */
 }
 
 .lista-links {
@@ -82,8 +96,9 @@ form {
     list-style: none;
 }
 
-.lista-links a {
-    color: var(--link-color) !important;
+/* Especificidade ajustada para remover a necessidade do !important */
+.meu-header .lista-links a {
+    color: var(--link-color);
     text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
@@ -95,7 +110,6 @@ form {
     opacity: 0.8;
 }
 
-/* Melhora acessibilidade para navegação via teclado */
 .lista-links a:focus-visible,
 button:focus-visible {
     outline: 2px solid var(--accent);
@@ -104,11 +118,10 @@ button:focus-visible {
 
 main {
     max-width: 800px;
-    margin: 0 auto;
+    margin-inline: auto; /* Margem lógica lateral automática */
     padding: 24px;
 }
 
-/* Tabelas robustas e responsivas */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -140,11 +153,11 @@ h3::before {
     color: var(--accent);
 }
 
-/* Componente de Foto */
 .foto-wrapper {
     position: relative;
     width: 150px;
-    margin: 0 auto 16px;
+    margin-inline: auto;
+    margin-bottom: 16px;
 }
 
 .foto-wrapper::before {
@@ -166,13 +179,12 @@ h3::before {
 footer {
     position: relative;
     background-color: var(--surface);
-    padding: 24px;
+    padding-block: 24px;
     text-align: center;
     margin-top: 32px;
     border-top: 1px solid var(--border);
 }
 
-/* Botões com feedback tátil no clique (:active) */
 .botao-limpar, .botao-enviar {
     border: none;
     padding: 10px 20px;
@@ -183,7 +195,7 @@ footer {
 }
 
 .botao-limpar:active, .botao-enviar:active {
-    transform: scale(0.98); /* Pequeno efeito de clique físico */
+    transform: scale(0.98);
 }
 
 .botao-limpar {
@@ -203,4 +215,3 @@ footer {
 .botao-enviar:hover {
     background-color: var(--success-hover);
 }
-
