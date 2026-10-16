@@ -291,9 +291,30 @@ footer {
         justify-content: flex-end;
     }
     
-    .botao-limpar, .botao-enviar {
-        width: auto;
-        padding-inline: 30px;
+    .botao-limpar {
+    width: 100%;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: white;
+    background-color: red;
+}
+
+    .botao-enviar {
+    width: 100%;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color:white;
+    background-color: green;
+}
+
     }
 
 
