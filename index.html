@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -16,7 +17,7 @@
 
         <main class="conteudo-principal">
             
-            <!-- Seção Sobre / Galeria de Entrada -->
+            <!-- Seção Sobre -->
             <section class="secao-sobre">
                 <div class="foto-wrapper">
                     <img src="cr7.png" alt="Foto do Desenvolvedor">
@@ -27,7 +28,7 @@
                 </div>
             </section>
 
-            <!-- Seção de Listagem Complexas com Tabela Responsiva -->
+            <!-- Seção de Habilidades -->
             <section class="secao-habilidades">
                 <h3>Habilidades Técnicas</h3>
                 <div class="tabela-responsiva">
@@ -64,31 +65,32 @@
                 </div>
             </section>
 
-            <!-- Formulário Refatorado -->
+            <!-- Formulário de Contato -->
             <section class="secao-contato">
                 <h4>Contato para recrutadores</h4>
                 <form action="/enviar" method="post">
                     <div class="form-group">
-                        <!-- nome -->
                         <label for="nome">Nome</label>
                         <input type="text" id="nome" name="nome" required>
                     </div>
-                    <!-- g-mail -->
+
                     <div class="form-group">
-                        <label for="g-mail">G-MAIL</label>
-                        <input type="text" id="g-mail" name="g-mail" required>
+                        <label for="g-mail">E-mail</label>
+                        <!-- Mudança 1: validação de e-mail -->
+                        <input type="email" id="g-mail" name="g-mail" required>
                     </div>
-                    <!-- zap -->
-                     <div class="form-group">
+
+                    <div class="form-group">
                         <label for="zap">WhatsApp</label>
-                        <input type="text" id="zap" name="zap" required>
+                        <!-- Mudança 2: campo para telefone -->
+                        <input type="tel" id="zap" name="zap" required>
                     </div>
-                    <!-- enpresa -->
+
                     <div class="form-group">
                         <label for="empresa">Empresa</label>
                         <input type="text" id="empresa" name="empresa" required>
                     </div>
-                    <!-- mensagem -->
+
                     <div class="form-group">
                         <label for="mensagem">Mensagem</label>
                         <textarea name="mensagem" id="mensagem" rows="5" required></textarea>
@@ -105,12 +107,13 @@
         <footer>
             <h4>Fale Comigo</h4>
             <nav class="lista-links">
-                <a href="https://github.com" target="_blank">Meu GitHub</a>
-                <a href="mailto:cristianoronaldo@gmail.com" target="_blank">E-mail</a>
-                <a href="https://linkedin.com" target="_blank">Meu LinkedIn</a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">Meu GitHub</a>
+                <a href="mailto:cristianoronaldo@gmail.com" target="_blank" rel="noopener noreferrer">E-mail</a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">Meu LinkedIn</a>
             </nav>
         </footer>
 
     </div>
 </body>
 </html>
+```
