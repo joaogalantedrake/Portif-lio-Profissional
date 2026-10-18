@@ -10,7 +10,7 @@
     --border: #2c3b47;
     --text: #e7edf2;
     --text-muted: #93a4af;
-    --accent: #e8871e;
+    --accent: #2196f3; /* Mudança 1: destaque azul */
     --danger: #f44336;
     --danger-hover: #d32f2f;
     --success: #4caf50;
@@ -34,23 +34,33 @@ img {
     display: block;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
 
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
 
 :is(h1, h2, h3, h4) {
     color: var(--text);
     font-weight: 700;
 }
+
 h3::before {
     content: "// ";
     color: var(--accent);
 }
-
-
 
 .layout-container {
     display: grid;
@@ -72,7 +82,6 @@ h3::before {
     letter-spacing: 2px;
 }
 
-
 .conteudo-principal {
     width: 100%;
     max-width: 1200px;
@@ -82,7 +91,6 @@ h3::before {
     flex-direction: column;
     gap: 40px;
 }
-
 
 .secao-sobre {
     display: flex;
@@ -127,7 +135,6 @@ h3::before {
     border: 4px solid var(--surface);
 }
 
-
 .foto-wrapper:hover {
     transform: scale(1.08) translateY(-4px);
 }
@@ -137,8 +144,6 @@ h3::before {
     rotate: 45deg;
     border-color: var(--text);
 }
-
-
 
 .tabela-responsiva {
     width: 100%;
@@ -153,7 +158,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     background-color: var(--surface);
-    min-width: 500px; 
+    min-width: 500px;
 }
 
 th, td {
@@ -179,7 +184,7 @@ tbody tr:hover {
 form {
     background-color: var(--surface);
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 12px; /* Mudança 2: bordas mais arredondadas */
     border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
@@ -212,7 +217,7 @@ form input, form textarea {
 form input:focus, form textarea:focus {
     outline: none;
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(232, 135, 30, 0.15);
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
 }
 
 .form-botoes {
@@ -259,14 +264,18 @@ footer {
 }
 
 .lista-links a:hover {
-    color: var(--text);
+    color: var(--accent); /* Mudança 3: link azul ao passar o mouse */
     transform: translateY(-2px);
 }
 
-
 @media (min-width: 320px) {
-    .meu-header h1 { font-size: 1.3rem; }
-    form { padding: 16px; }
+    .meu-header h1 {
+        font-size: 1.3rem;
+    }
+
+    form {
+        padding: 16px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -279,7 +288,7 @@ footer {
         text-align: left;
         gap: 40px;
     }
-    
+
     .foto-wrapper {
         width: 160px;
         height: 160px;
@@ -290,40 +299,37 @@ footer {
         flex-direction: row;
         justify-content: flex-end;
     }
-    
+
     .botao-limpar {
-    width: 100%;
-    border: none;
-    padding: 14px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: white;
-    background-color: red;
-}
-
-    .botao-enviar {
-    width: 100%;
-    border: none;
-    padding: 14px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color:white;
-    background-color: green;
-}
-
+        width: 100%;
+        border: none;
+        padding: 14px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: white;
+        background-color: red;
     }
 
+    .botao-enviar {
+        width: 100%;
+        border: none;
+        padding: 14px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: white;
+        background-color: green;
+    }
 
     footer {
         flex-direction: row;
         justify-content: space-between;
         padding-inline: 40px;
     }
-    
+
     .lista-links {
         flex-direction: row;
         gap: 30px;
@@ -336,27 +342,26 @@ footer {
         padding-inline: 60px;
     }
 
-
     .conteudo-principal {
         display: grid;
         grid-template-columns: 2fr 1fr;
-        grid-template-areas: 
+        grid-template-areas:
             "sobre contato"
             "hab contato";
         gap: 40px;
         padding-block: 60px;
     }
 
-    .secao-sobre { 
-        grid-area: sobre; 
+    .secao-sobre {
+        grid-area: sobre;
     }
-    
-    .secao-habilidades { 
-        grid-area: hab; 
+
+    .secao-habilidades {
+        grid-area: hab;
     }
-    
-    .secao-contato { 
-        grid-area: contato; 
+
+    .secao-contato {
+        grid-area: contato;
     }
 
     form {
@@ -365,14 +370,13 @@ footer {
     }
 }
 
-
 @media (min-width: 1440px) {
     .conteudo-principal {
         max-width: 1300px;
         gap: 60px;
     }
-    
+
     body {
-        font-size: 17px; 
+        font-size: 17px;
     }
 }
