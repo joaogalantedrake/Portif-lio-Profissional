@@ -1,25 +1,31 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio</title>
+    <title>Cristiano | Desenvolvedor Back-End Java</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Grid Container Principal -->
     <div class="layout-container">
-        
+
         <header class="meu-header">
-            <h1>APRESENTAÇÃO do meu Portfólio / currículo</h1>
+            <h1>Cristiano</h1>
+            <nav class="menu" aria-label="Seções">
+                <a href="#sobre">Sobre</a><a href="#habilidades">Habilidades</a><a href="#projetos">Projetos</a><a href="#experiencia">Experiência</a><a href="#contato">Contato</a>
+            </nav>
+            <p class="cargo">Desenvolvedor Back-End Java</p>
         </header>
 
         <main class="conteudo-principal">
-            
+
             <!-- Seção Sobre -->
-            <section class="secao-sobre">
+            <section class="secao-sobre" id="sobre">
                 <div class="foto-wrapper">
+                    <span class="orbita" aria-hidden="true"></span>
                     <img src="cr7.png" alt="Foto do Desenvolvedor">
                 </div>
                 <div class="texto-sobre">
@@ -28,9 +34,17 @@
                 </div>
             </section>
 
+            <!-- Números (EDITE com seus dados reais) -->
+            <section class="destaques" aria-label="Destaques">
+                <div><strong>5+</strong><span>anos programando em Java</span></div>
+                <div><strong>20+</strong><span>APIs REST entregues</span></div>
+                <div><strong>80%</strong><span>de cobertura de testes</span></div>
+                <div><strong>3</strong><span>versões LTS do Java (11, 17 e 21)</span></div>
+            </section>
+
             <!-- Seção de Habilidades -->
-            <section class="secao-habilidades">
-                <h3>Habilidades Técnicas</h3>
+            <section class="secao-habilidades" id="habilidades">
+                <h3>Habilidades técnicas</h3>
                 <div class="tabela-responsiva">
                     <table>
                         <thead>
@@ -65,51 +79,108 @@
                 </div>
             </section>
 
+            <!-- Projetos (EDITE: troque por seus projetos e links do GitHub) -->
+            <section class="secao-projetos" id="projetos">
+                <h3>Projetos</h3>
+                <div class="grade-projetos">
+                    <article class="card-projeto">
+                        <h4>API de pedidos e pagamentos</h4>
+                        <p>API REST com Spring Boot e Oracle para controlar pedidos, pagamentos e estoque, com autenticação JWT e documentação OpenAPI.</p>
+                        <ul class="tags"><li>Java 17</li><li>Spring Boot</li><li>Oracle</li><li>JWT</li><li>Docker</li></ul>
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer">Ver código no GitHub</a>
+                    </article>
+                    <article class="card-projeto">
+                        <h4>Otimização de consultas Oracle</h4>
+                        <p>Reescrita de queries e procedures PL/SQL em relatórios críticos, reduzindo o tempo de resposta de minutos para segundos.</p>
+                        <ul class="tags"><li>PL/SQL</li><li>Índices</li><li>Plano de execução</li></ul>
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer">Ver código no GitHub</a>
+                    </article>
+                    <article class="card-projeto">
+                        <h4>Microsserviço com Clean Architecture</h4>
+                        <p>Serviço dividido em domínio, aplicação e infraestrutura, com testes unitários e de integração e pipeline de CI/CD.</p>
+                        <ul class="tags"><li>JUnit 5</li><li>Mockito</li><li>Maven</li><li>CI/CD</li></ul>
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer">Ver código no GitHub</a>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Experiência (EDITE com suas empresas e datas) -->
+            <section class="secao-experiencia" id="experiencia">
+                <h3>Experiência profissional</h3>
+                <div class="linha-tempo">
+                    <article class="marco">
+                        <time>2023 até hoje</time>
+                        <h4>Desenvolvedor Back-End Java, Empresa X</h4>
+                        <ul>
+                            <li>Desenvolvimento e manutenção de APIs REST com Spring Boot.</li>
+                            <li>Modelagem e otimização de bancos Oracle com PL/SQL.</li>
+                            <li>Testes automatizados e revisão de código em equipe.</li>
+                        </ul>
+                    </article>
+                    <article class="marco">
+                        <time>2021 a 2023</time>
+                        <h4>Desenvolvedor Java Júnior, Empresa Y</h4>
+                        <ul>
+                            <li>Manutenção de sistemas legados e migração para Spring Boot.</li>
+                            <li>Criação de rotinas e relatórios em SQL.</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Formação (EDITE com seus dados) -->
+            <section class="secao-formacao" id="formacao">
+                <h3>Formação e certificações</h3>
+                <ul class="lista-formacao">
+                    <li><strong>Graduação em [seu curso]</strong><span>[Instituição], [ano de conclusão]</span></li>
+                    <li><strong>Certificação em Java ou Spring</strong><span>[Nome da certificação], [ano]</span></li>
+                    <li><strong>Cursos complementares</strong><span>Docker, CI/CD e Arquitetura de Software</span></li>
+                </ul>
+            </section>
+
             <!-- Formulário de Contato -->
-            <section class="secao-contato">
+            <section class="secao-contato" id="contato">
                 <h4>Contato para recrutadores</h4>
                 <form action="/enviar" method="post">
                     <div class="form-group">
                         <label for="nome">Nome</label>
-                        <input type="text" id="nome" name="nome" required>
+                        <input type="text" id="nome" name="nome" autocomplete="name" required>
                     </div>
 
                     <div class="form-group">
                         <label for="g-mail">E-mail</label>
-                        <!-- Mudança 1: validação de e-mail -->
-                        <input type="email" id="g-mail" name="g-mail" required>
+                        <input type="email" id="g-mail" name="g-mail" autocomplete="email" placeholder="voce@empresa.com" required>
                     </div>
 
                     <div class="form-group">
                         <label for="zap">WhatsApp</label>
-                        <!-- Mudança 2: campo para telefone -->
-                        <input type="tel" id="zap" name="zap" required>
+                        <input type="tel" id="zap" name="zap" autocomplete="tel" placeholder="(11) 90000-0000" required>
                     </div>
 
                     <div class="form-group">
                         <label for="empresa">Empresa</label>
-                        <input type="text" id="empresa" name="empresa" required>
+                        <input type="text" id="empresa" name="empresa" autocomplete="organization" required>
                     </div>
 
                     <div class="form-group">
                         <label for="mensagem">Mensagem</label>
-                        <textarea name="mensagem" id="mensagem" rows="5" required></textarea>
+                        <textarea name="mensagem" id="mensagem" rows="5" placeholder="Conte sobre a vaga ou o projeto" required></textarea>
                     </div>
-                    
+
                     <div class="form-botoes">
                         <button type="reset" class="botao-limpar">Limpar</button>
-                        <button type="submit" class="botao-enviar">Enviar</button>
+                        <button type="submit" class="botao-enviar">Enviar mensagem</button>
                     </div>
                 </form>
             </section>
         </main>
 
         <footer>
-            <h4>Fale Comigo</h4>
+            <h4>Fale comigo</h4>
             <nav class="lista-links">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">Meu GitHub</a>
-                <a href="mailto:cristianoronaldo@gmail.com" target="_blank" rel="noopener noreferrer">E-mail</a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">Meu LinkedIn</a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:cristianoronaldo@gmail.com">E-mail</a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </nav>
         </footer>
 
@@ -118,4 +189,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-```
