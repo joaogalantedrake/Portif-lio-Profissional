@@ -1,1 +1,257 @@
+'use strict';
 
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('.secao-contato form');
+  const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* =========================================================
+     TOAST (notificação flutuante)
+     ========================================================= */
+  const toastContainer = document.createElement('div');
+  toastContainer.className = 'toast-container';
+  toastContainer.setAttribute('role', 'status');
+  toastContainer.setAttribute('aria-live', 'polite');
+  document.body.appendChild(toastContainer);
+
+  function mostrarToast(mensagem, tipo = 'sucesso', duracao = 4000) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${tipo}`;
+    toast.textContent = mensagem;
+    toastContainer.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.add('show'));
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+      setTimeout(() => toast.remove(), 500); // garantia
+    }, duracao);
+  }
+
+  /* =========================================================
+     FORMULÁRIO
+     ========================================================= */
+  if (form) {
+    const campos = {
+      nome: form.querySelector('#nome'),
+      email: form.querySelector('#g-mail'),
+      zap: form.querySelector('#zap'),
+      empresa: form.querySelector('#empresa'),
+      mensagem: form.querySelector('#mensagem'),
+    };
+    const botaoEnviar = form.querySelector('.botao-enviar');
+    const textoOriginalBotao = botaoEnviar.textContent;
+    const LIMITE_MENSAGEM = 500;
+    const MINIMO_MENSAGEM = 10;
+
+    /* ---------- Máscara do WhatsApp: (99) 99999-9999 ---------- */
+    function aplicarMascaraTelefone(valor) {
+      const d = valor.replace(/\D/g, '').slice(0, 11);
+      if (d.length === 0) return '';
+      if (d.length <= 2) return `(${d}`;
+      if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+      if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+      return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    }
+
+    campos.zap.setAttribute('inputmode', 'numeric');
+    campos.zap.setAttribute('placeholder', '(99) 99999-9999');
+    campos.zap.setAttribute('maxlength', '15');
+    campos.zap.addEventListener('input', () => {
+      campos.zap.value = aplicarMascaraTelefone(campos.zap.value);
+    });
+
+    /* ---------- Contador de caracteres ---------- */
+    const contador = document.createElement('small');
+    contador.className = 'contador';
+    contador.setAttribute('aria-live', 'off');
+    campos.mensagem.setAttribute('maxlength', LIMITE_MENSAGEM);
+    campos.mensagem.insertAdjacentElement('afterend', contador);
+
+    function atualizarContador() {
+      const usados = campos.mensagem.value.length;
+      contador.textContent = `${usados}/${LIMITE_MENSAGEM} caracteres`;
+      contador.classList.toggle('limite', usados >= LIMITE_MENSAGEM * 0.9);
+    }
+    campos.mensagem.addEventListener('input', atualizarContador);
+    atualizarContador();
+
+    /* ---------- Regras de validação ---------- */
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    const regras = {
+      nome(v) {
+        if (!v.trim()) return 'Informe seu nome.';
+        if (v.trim().length < 3) return 'O nome deve ter pelo menos 3 caracteres.';
+        return '';
+      },
+      email(v) {
+        if (!v.trim()) return 'Informe seu e-mail.';
+        if (!regexEmail.test(v.trim())) return 'Digite um e-mail válido (ex: nome@empresa.com).';
+        return '';
+      },
+      zap(v) {
+        const d = v.replace(/\D/g, '');
+        if (!d) return 'Informe seu WhatsApp.';
+        if (d.length < 10) return 'Telefone incompleto. Use DDD + número.';
+        if (d.length === 11 && d[2] !== '9') return 'Celulares com 11 dígitos começam com 9 após o DDD.';
+        return '';
+      },
+      empresa(v) {
+        if (!v.trim()) return 'Informe o nome da empresa.';
+        return '';
+      },
+      mensagem(v) {
+        if (!v.trim()) return 'Escreva uma mensagem.';
+        if (v.trim().length < MINIMO_MENSAGEM) {
+          return `A mensagem deve ter pelo menos ${MINIMO_MENSAGEM} caracteres.`;
+        }
+        return '';
+      },
+    };
+
+    // cria um <span> de erro logo abaixo de cada campo
+    Object.entries(campos).forEach(([chave, el]) => {
+      const erro = document.createElement('span');
+      erro.className = 'campo-erro';
+      erro.id = `erro-${el.id}`;
+      el.setAttribute('aria-describedby', erro.id);
+
+      // o contador fica logo após o textarea; o erro vai depois dele
+      const referencia = chave === 'mensagem' ? contador : el;
+      referencia.insertAdjacentElement('afterend', erro);
+    });
+
+    function validarCampo(chave) {
+      const el = campos[chave];
+      const mensagemErro = regras[chave](el.value);
+      const spanErro = document.getElementById(`erro-${el.id}`);
+
+      spanErro.textContent = mensagemErro;
+      el.classList.toggle('invalido', Boolean(mensagemErro));
+      el.classList.toggle('valido', !mensagemErro && el.value.trim() !== '');
+      el.setAttribute('aria-invalid', mensagemErro ? 'true' : 'false');
+      return !mensagemErro;
+    }
+
+    Object.keys(campos).forEach((chave) => {
+      const el = campos[chave];
+      // valida ao sair do campo
+      el.addEventListener('blur', () => validarCampo(chave));
+      // depois de marcado como inválido, revalida enquanto digita
+      el.addEventListener('input', () => {
+        if (el.classList.contains('invalido')) validarCampo(chave);
+      });
+    });
+
+    function limparEstadoVisual() {
+      Object.values(campos).forEach((el) => {
+        el.classList.remove('invalido', 'valido');
+        el.removeAttribute('aria-invalid');
+        document.getElementById(`erro-${el.id}`).textContent = '';
+      });
+    }
+
+    /* ---------- Botão Limpar ---------- */
+    form.addEventListener('reset', () => {
+      limparEstadoVisual();
+      // o reset limpa os valores depois do evento; atualiza o contador em seguida
+      setTimeout(atualizarContador, 0);
+    });
+
+    /* ---------- Envio ---------- */
+    // Troque esta função por um fetch() real quando tiver o back-end:
+    //   return fetch('/enviar', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(dados),
+    //   }).then((r) => { if (!r.ok) throw new Error('Falha no envio'); });
+    function enviarDados(dados) {
+      return new Promise((resolve) => {
+        console.log('Dados do formulário:', dados);
+        setTimeout(resolve, 1800); // simula a latência da rede
+      });
+    }
+
+    function definirCarregando(carregando) {
+      botaoEnviar.disabled = carregando;
+      form.querySelector('.botao-limpar').disabled = carregando;
+      if (carregando) {
+        botaoEnviar.innerHTML = '<span class="spinner" aria-hidden="true"></span>Enviando...';
+      } else {
+        botaoEnviar.textContent = textoOriginalBotao;
+      }
+    }
+
+    form.setAttribute('novalidate', ''); // desliga os balões nativos: usamos os nossos
+    form.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+
+      // valida todos (sem parar no primeiro, para mostrar todos os erros)
+      const resultados = Object.keys(campos).map((chave) => [chave, validarCampo(chave)]);
+      const primeiroInvalido = resultados.find(([, ok]) => !ok);
+
+      if (primeiroInvalido) {
+        campos[primeiroInvalido[0]].focus();
+        mostrarToast('Corrija os campos destacados antes de enviar.', 'erro');
+        return;
+      }
+
+      const dados = Object.fromEntries(new FormData(form).entries());
+
+      definirCarregando(true);
+      try {
+        await enviarDados(dados);
+        mostrarToast('Mensagem enviada com sucesso! Retornarei em breve. 🚀', 'sucesso');
+        form.reset();
+      } catch (erro) {
+        console.error(erro);
+        mostrarToast('Não foi possível enviar. Tente novamente.', 'erro');
+      } finally {
+        definirCarregando(false);
+      }
+    });
+  }
+
+  /* =========================================================
+     BOTÃO "VOLTAR AO TOPO"
+     ========================================================= */
+  const botaoTopo = document.createElement('button');
+  botaoTopo.type = 'button';
+  botaoTopo.className = 'back-to-top';
+  botaoTopo.setAttribute('aria-label', 'Voltar ao topo');
+  botaoTopo.innerHTML = '&#8679;';
+  document.body.appendChild(botaoTopo);
+
+  const alternarBotaoTopo = () => {
+    botaoTopo.classList.toggle('visivel', window.scrollY > 300);
+  };
+  window.addEventListener('scroll', alternarBotaoTopo, { passive: true });
+  alternarBotaoTopo();
+
+  botaoTopo.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: reduzMovimento ? 'auto' : 'smooth' });
+  });
+
+  /* =========================================================
+     SCROLL REVEAL
+     ========================================================= */
+  const secoes = document.querySelectorAll('.secao-sobre, .secao-habilidades, .secao-contato');
+
+  if ('IntersectionObserver' in window && !reduzMovimento) {
+    const observador = new IntersectionObserver((entradas, obs) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          entrada.target.classList.add('visivel');
+          obs.unobserve(entrada.target); // anima só uma vez
+        }
+      });
+    }, { threshold: 0.15 });
+
+    secoes.forEach((secao, i) => {
+      secao.classList.add('reveal');
+      secao.style.transitionDelay = `${i * 0.08}s`;
+      observador.observe(secao);
+    });
+  }
+});
