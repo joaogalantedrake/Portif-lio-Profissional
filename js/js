@@ -1,257 +1,118 @@
-'use strict';
+/* variáveis */
+:root {
+  --fundo: #181b1f;
+  --card: #20242a;
+  --preto: #0e1013;
+  --borda: #343a41;
+  --ceu: #47455a;
+  --branco: #eeeeea;
+  --cinza: #a0a8b0;
+  --amarelo: #e0a03c;
+  --azul: #4aa8e8;
+  --verde: #78cf5a;
+  --vermelho: #ee6a5d;
+  --fonte: Helvetica, Arial, sans-serif;
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('.secao-contato form');
-  const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  /* =========================================================
-     TOAST (notificação flutuante)
-     ========================================================= */
-  const toastContainer = document.createElement('div');
-  toastContainer.className = 'toast-container';
-  toastContainer.setAttribute('role', 'status');
-  toastContainer.setAttribute('aria-live', 'polite');
-  document.body.appendChild(toastContainer);
+body { background: var(--fundo); color: var(--branco); font-family: var(--fonte); font-size: 17px; line-height: 1.7; }
+a { color: var(--amarelo); text-decoration: none; }
+h1, h2, h3, h4 { line-height: 1.2; }
+h4 { font-size: 18px; }
 
-  function mostrarToast(mensagem, tipo = 'sucesso', duracao = 4000) {
-    const toast = document.createElement('div');
-    toast.className = `toast ${tipo}`;
-    toast.textContent = mensagem;
-    toastContainer.appendChild(toast);
+/* cada seção muda o valor da variável --cor */
+#sobre, #formacao { --cor: var(--amarelo); }
+#habilidades, #contato { --cor: var(--azul); }
+#projetos { --cor: var(--verde); }
+#experiencia { --cor: var(--vermelho); }
 
-    requestAnimationFrame(() => toast.classList.add('show'));
+h3 { font-size: 26px; margin-bottom: 28px; padding: 0 0 12px 14px; border-left: 12px solid var(--cor); border-bottom: 2px solid var(--cor); }
 
-    setTimeout(() => {
-      toast.classList.remove('show');
-      toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-      setTimeout(() => toast.remove(), 500); // garantia
-    }, duracao);
-  }
+/* menu: position fixed + flexbox */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding: 16px 8%;
+  background: var(--preto);
+  border-bottom: 1px solid var(--borda);
+}
+.logo { color: var(--branco); font-family: "Arial Black", Arial, sans-serif; font-size: 21px; letter-spacing: 1px; text-transform: uppercase; }
+nav { display: flex; flex-wrap: wrap; gap: 6px 24px; }
+nav a { color: var(--cinza); font-size: 15px; }
 
-  /* =========================================================
-     FORMULÁRIO
-     ========================================================= */
-  if (form) {
-    const campos = {
-      nome: form.querySelector('#nome'),
-      email: form.querySelector('#g-mail'),
-      zap: form.querySelector('#zap'),
-      empresa: form.querySelector('#empresa'),
-      mensagem: form.querySelector('#mensagem'),
-    };
-    const botaoEnviar = form.querySelector('.botao-enviar');
-    const textoOriginalBotao = botaoEnviar.textContent;
-    const LIMITE_MENSAGEM = 500;
-    const MINIMO_MENSAGEM = 10;
+/* hero: flexbox + position absolute no skyline */
+.hero {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 140px 8% 240px;
+  background: var(--ceu);
+}
+.hero div { position: relative; z-index: 2; flex: 1 1 320px; }
+.hero img { position: relative; z-index: 2; width: 250px; border: 5px solid var(--branco); }
+.hero svg { position: absolute; left: 0; bottom: 0; width: 100%; height: 260px; z-index: 1; }
+.hero h1 { font-family: "Arial Black", Arial, sans-serif; font-size: 9vw; line-height: 1; text-transform: uppercase; }
+.hero h2 { margin: 16px 0 8px; font-size: 24px; color: var(--amarelo); }
+.hero p { max-width: 480px; }
+.hero a { display: inline-block; margin: 28px 12px 0 0; padding: 14px 28px; color: var(--branco); font-weight: bold; border: 2px solid var(--branco); }
 
-    /* ---------- Máscara do WhatsApp: (99) 99999-9999 ---------- */
-    function aplicarMascaraTelefone(valor) {
-      const d = valor.replace(/\D/g, '').slice(0, 11);
-      if (d.length === 0) return '';
-      if (d.length <= 2) return `(${d}`;
-      if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
-      if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
-      return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
-    }
+main { padding: 0 8% 100px; }
+/* espaço no topo pro menu fixo não tapar o título */
+main section { padding-top: 90px; }
 
-    campos.zap.setAttribute('inputmode', 'numeric');
-    campos.zap.setAttribute('placeholder', '(99) 99999-9999');
-    campos.zap.setAttribute('maxlength', '15');
-    campos.zap.addEventListener('input', () => {
-      campos.zap.value = aplicarMascaraTelefone(campos.zap.value);
-    });
+#sobre p { max-width: 640px; font-size: 20px; }
 
-    /* ---------- Contador de caracteres ---------- */
-    const contador = document.createElement('small');
-    contador.className = 'contador';
-    contador.setAttribute('aria-live', 'off');
-    campos.mensagem.setAttribute('maxlength', LIMITE_MENSAGEM);
-    campos.mensagem.insertAdjacentElement('afterend', contador);
+/* tabela */
+table { width: 100%; border-collapse: collapse; background: var(--card); }
+th, td { padding: 16px 20px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--borda); }
+th { color: var(--cinza); font-weight: normal; background: var(--preto); border-bottom: 2px solid var(--cor); }
 
-    function atualizarContador() {
-      const usados = campos.mensagem.value.length;
-      contador.textContent = `${usados}/${LIMITE_MENSAGEM} caracteres`;
-      contador.classList.toggle('limite', usados >= LIMITE_MENSAGEM * 0.9);
-    }
-    campos.mensagem.addEventListener('input', atualizarContador);
-    atualizarContador();
+/* caixas dos projetos, da formação e do formulário */
+#projetos article, #formacao li, form {
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-top: 4px solid var(--cor);
+}
 
-    /* ---------- Regras de validação ---------- */
-    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+/* projetos: flexbox */
+#projetos { display: flex; flex-wrap: wrap; gap: 24px; }
+#projetos h3 { width: 100%; margin-bottom: 0; }
+#projetos article { flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px; }
+#projetos p { color: var(--cinza); }
+#projetos ul { display: flex; flex-wrap: wrap; gap: 4px 14px; list-style: none; color: var(--cor); font-size: 14px; }
+#projetos a { color: var(--cor); font-weight: bold; }
 
-    const regras = {
-      nome(v) {
-        if (!v.trim()) return 'Informe seu nome.';
-        if (v.trim().length < 3) return 'O nome deve ter pelo menos 3 caracteres.';
-        return '';
-      },
-      email(v) {
-        if (!v.trim()) return 'Informe seu e-mail.';
-        if (!regexEmail.test(v.trim())) return 'Digite um e-mail válido (ex: nome@empresa.com).';
-        return '';
-      },
-      zap(v) {
-        const d = v.replace(/\D/g, '');
-        if (!d) return 'Informe seu WhatsApp.';
-        if (d.length < 10) return 'Telefone incompleto. Use DDD + número.';
-        if (d.length === 11 && d[2] !== '9') return 'Celulares com 11 dígitos começam com 9 após o DDD.';
-        return '';
-      },
-      empresa(v) {
-        if (!v.trim()) return 'Informe o nome da empresa.';
-        return '';
-      },
-      mensagem(v) {
-        if (!v.trim()) return 'Escreva uma mensagem.';
-        if (v.trim().length < MINIMO_MENSAGEM) {
-          return `A mensagem deve ter pelo menos ${MINIMO_MENSAGEM} caracteres.`;
-        }
-        return '';
-      },
-    };
+/* experiência */
+#experiencia article { margin-bottom: 32px; padding-left: 24px; border-left: 4px solid var(--cor); }
+#experiencia ul { margin-left: 20px; color: var(--cinza); }
+time { display: block; color: var(--cor); font-size: 14px; font-weight: bold; }
 
-    // cria um <span> de erro logo abaixo de cada campo
-    Object.entries(campos).forEach(([chave, el]) => {
-      const erro = document.createElement('span');
-      erro.className = 'campo-erro';
-      erro.id = `erro-${el.id}`;
-      el.setAttribute('aria-describedby', erro.id);
+/* formação: grid com 3 colunas */
+#formacao ul { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; list-style: none; }
+#formacao strong { display: block; }
+#formacao span { color: var(--cinza); }
 
-      // o contador fica logo após o textarea; o erro vai depois dele
-      const referencia = chave === 'mensagem' ? contador : el;
-      referencia.insertAdjacentElement('afterend', erro);
-    });
+/* formulário: flexbox */
+form { display: flex; flex-wrap: wrap; gap: 20px; }
+label { flex: 1 1 260px; display: flex; flex-direction: column; gap: 8px; font-weight: bold; }
+input, textarea { padding: 12px 14px; font-family: var(--fonte); font-size: 16px; color: var(--branco); background: var(--fundo); border: 1px solid var(--borda); }
+textarea { min-height: 140px; }
+form div { flex: 1 1 100%; display: flex; justify-content: flex-end; gap: 14px; }
+button { padding: 14px 28px; font-family: var(--fonte); font-size: 16px; font-weight: bold; color: #000; background: var(--amarelo); border: 0; cursor: pointer; }
 
-    function validarCampo(chave) {
-      const el = campos[chave];
-      const mensagemErro = regras[chave](el.value);
-      const spanErro = document.getElementById(`erro-${el.id}`);
-
-      spanErro.textContent = mensagemErro;
-      el.classList.toggle('invalido', Boolean(mensagemErro));
-      el.classList.toggle('valido', !mensagemErro && el.value.trim() !== '');
-      el.setAttribute('aria-invalid', mensagemErro ? 'true' : 'false');
-      return !mensagemErro;
-    }
-
-    Object.keys(campos).forEach((chave) => {
-      const el = campos[chave];
-      // valida ao sair do campo
-      el.addEventListener('blur', () => validarCampo(chave));
-      // depois de marcado como inválido, revalida enquanto digita
-      el.addEventListener('input', () => {
-        if (el.classList.contains('invalido')) validarCampo(chave);
-      });
-    });
-
-    function limparEstadoVisual() {
-      Object.values(campos).forEach((el) => {
-        el.classList.remove('invalido', 'valido');
-        el.removeAttribute('aria-invalid');
-        document.getElementById(`erro-${el.id}`).textContent = '';
-      });
-    }
-
-    /* ---------- Botão Limpar ---------- */
-    form.addEventListener('reset', () => {
-      limparEstadoVisual();
-      // o reset limpa os valores depois do evento; atualiza o contador em seguida
-      setTimeout(atualizarContador, 0);
-    });
-
-    /* ---------- Envio ---------- */
-    // Troque esta função por um fetch() real quando tiver o back-end:
-    //   return fetch('/enviar', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(dados),
-    //   }).then((r) => { if (!r.ok) throw new Error('Falha no envio'); });
-    function enviarDados(dados) {
-      return new Promise((resolve) => {
-        console.log('Dados do formulário:', dados);
-        setTimeout(resolve, 1800); // simula a latência da rede
-      });
-    }
-
-    function definirCarregando(carregando) {
-      botaoEnviar.disabled = carregando;
-      form.querySelector('.botao-limpar').disabled = carregando;
-      if (carregando) {
-        botaoEnviar.innerHTML = '<span class="spinner" aria-hidden="true"></span>Enviando...';
-      } else {
-        botaoEnviar.textContent = textoOriginalBotao;
-      }
-    }
-
-    form.setAttribute('novalidate', ''); // desliga os balões nativos: usamos os nossos
-    form.addEventListener('submit', async (evento) => {
-      evento.preventDefault();
-
-      // valida todos (sem parar no primeiro, para mostrar todos os erros)
-      const resultados = Object.keys(campos).map((chave) => [chave, validarCampo(chave)]);
-      const primeiroInvalido = resultados.find(([, ok]) => !ok);
-
-      if (primeiroInvalido) {
-        campos[primeiroInvalido[0]].focus();
-        mostrarToast('Corrija os campos destacados antes de enviar.', 'erro');
-        return;
-      }
-
-      const dados = Object.fromEntries(new FormData(form).entries());
-
-      definirCarregando(true);
-      try {
-        await enviarDados(dados);
-        mostrarToast('Mensagem enviada com sucesso! Retornarei em breve. 🚀', 'sucesso');
-        form.reset();
-      } catch (erro) {
-        console.error(erro);
-        mostrarToast('Não foi possível enviar. Tente novamente.', 'erro');
-      } finally {
-        definirCarregando(false);
-      }
-    });
-  }
-
-  /* =========================================================
-     BOTÃO "VOLTAR AO TOPO"
-     ========================================================= */
-  const botaoTopo = document.createElement('button');
-  botaoTopo.type = 'button';
-  botaoTopo.className = 'back-to-top';
-  botaoTopo.setAttribute('aria-label', 'Voltar ao topo');
-  botaoTopo.innerHTML = '&#8679;';
-  document.body.appendChild(botaoTopo);
-
-  const alternarBotaoTopo = () => {
-    botaoTopo.classList.toggle('visivel', window.scrollY > 300);
-  };
-  window.addEventListener('scroll', alternarBotaoTopo, { passive: true });
-  alternarBotaoTopo();
-
-  botaoTopo.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: reduzMovimento ? 'auto' : 'smooth' });
-  });
-
-  /* =========================================================
-     SCROLL REVEAL
-     ========================================================= */
-  const secoes = document.querySelectorAll('.secao-sobre, .secao-habilidades, .secao-contato');
-
-  if ('IntersectionObserver' in window && !reduzMovimento) {
-    const observador = new IntersectionObserver((entradas, obs) => {
-      entradas.forEach((entrada) => {
-        if (entrada.isIntersecting) {
-          entrada.target.classList.add('visivel');
-          obs.unobserve(entrada.target); // anima só uma vez
-        }
-      });
-    }, { threshold: 0.15 });
-
-    secoes.forEach((secao, i) => {
-      secao.classList.add('reveal');
-      secao.style.transitionDelay = `${i * 0.08}s`;
-      observador.observe(secao);
-    });
-  }
-});
+/* rodapé: flexbox */
+footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px 24px; padding: 40px 8%; color: var(--cinza); background: var(--preto); border-top: 1px solid var(--borda); }
+footer a { font-weight: bold; }
