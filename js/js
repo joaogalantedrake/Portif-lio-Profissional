@@ -1,4 +1,4 @@
-/* variáveis */
+
 :root {
   --fundo: #181b1f;
   --card: #20242a;
@@ -14,22 +14,62 @@
   --fonte: Helvetica, Arial, sans-serif;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-body { background: var(--fundo); color: var(--branco); font-family: var(--fonte); font-size: 17px; line-height: 1.7; }
-a { color: var(--amarelo); text-decoration: none; }
-h1, h2, h3, h4 { line-height: 1.2; }
-h4 { font-size: 18px; }
+html {
+  scroll-behavior: smooth;
+}
 
-/* cada seção muda o valor da variável --cor */
-#sobre, #formacao { --cor: var(--amarelo); }
-#habilidades, #contato { --cor: var(--azul); }
-#projetos { --cor: var(--verde); }
-#experiencia { --cor: var(--vermelho); }
+body {
+  background: var(--fundo);
+  color: var(--branco);
+  font-family: var(--fonte);
+  font-size: 17px;
+  line-height: 1.7;
+}
 
-h3 { font-size: 26px; margin-bottom: 28px; padding: 0 0 12px 14px; border-left: 12px solid var(--cor); border-bottom: 2px solid var(--cor); }
+a {
+  color: var(--amarelo);
+  text-decoration: none;
+  transition: 0.3s ease;
+}
 
-/* menu: position fixed + flexbox */
+h1, h2, h3, h4 {
+  line-height: 1.2;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+#sobre, #formacao {
+  --cor: var(--amarelo);
+}
+
+#habilidades, #contato {
+  --cor: var(--azul);
+}
+
+#projetos {
+  --cor: var(--verde);
+}
+
+#experiencia {
+  --cor: var(--vermelho);
+}
+
+h3 {
+  font-size: 26px;
+  margin-bottom: 28px;
+  padding: 0 0 12px 14px;
+  border-left: 12px solid var(--cor);
+  border-bottom: 2px solid var(--cor);
+}
+
 header {
   position: fixed;
   top: 0;
@@ -45,11 +85,30 @@ header {
   background: var(--preto);
   border-bottom: 1px solid var(--borda);
 }
-.logo { color: var(--branco); font-family: "Arial Black", Arial, sans-serif; font-size: 21px; letter-spacing: 1px; text-transform: uppercase; }
-nav { display: flex; flex-wrap: wrap; gap: 6px 24px; }
-nav a { color: var(--cinza); font-size: 15px; }
 
-/* hero: flexbox + position absolute no skyline */
+.logo {
+  color: var(--branco);
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: 21px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+}
+
+nav a {
+  color: var(--cinza);
+  font-size: 15px;
+}
+
+nav a:hover {
+  color: var(--amarelo);
+}
+
 .hero {
   position: relative;
   display: flex;
@@ -57,62 +116,391 @@ nav a { color: var(--cinza); font-size: 15px; }
   align-items: center;
   flex-wrap: wrap;
   gap: 40px;
-  padding: 140px 8% 240px;
+  padding: 150px 8% 240px;
   background: var(--ceu);
+  overflow: hidden;
 }
-.hero div { position: relative; z-index: 2; flex: 1 1 320px; }
-.hero img { position: relative; z-index: 2; width: 250px; border: 5px solid var(--branco); }
-.hero svg { position: absolute; left: 0; bottom: 0; width: 100%; height: 260px; z-index: 1; }
-.hero h1 { font-family: "Arial Black", Arial, sans-serif; font-size: 9vw; line-height: 1; text-transform: uppercase; }
-.hero h2 { margin: 16px 0 8px; font-size: 24px; color: var(--amarelo); }
-.hero p { max-width: 480px; }
-.hero a { display: inline-block; margin: 28px 12px 0 0; padding: 14px 28px; color: var(--branco); font-weight: bold; border: 2px solid var(--branco); }
 
-main { padding: 0 8% 100px; }
-/* espaço no topo pro menu fixo não tapar o título */
-main section { padding-top: 90px; }
+.hero div {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 320px;
+}
 
-#sobre p { max-width: 640px; font-size: 20px; }
+.hero img {
+  position: relative;
+  z-index: 2;
+  width: 250px;
+  max-width: 100%;
+  border: 5px solid var(--branco);
+  transition: transform 0.3s ease;
+}
 
-/* tabela */
-table { width: 100%; border-collapse: collapse; background: var(--card); }
-th, td { padding: 16px 20px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--borda); }
-th { color: var(--cinza); font-weight: normal; background: var(--preto); border-bottom: 2px solid var(--cor); }
+.hero img:hover {
+  transform: scale(1.03);
+}
 
-/* caixas dos projetos, da formação e do formulário */
-#projetos article, #formacao li, form {
+.hero svg {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 260px;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: 9vw;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero h2 {
+  margin: 16px 0 8px;
+  font-size: 24px;
+  color: var(--amarelo);
+}
+
+.hero p {
+  max-width: 480px;
+}
+
+.hero a {
+  display: inline-block;
+  margin: 28px 12px 0 0;
+  padding: 14px 28px;
+  color: var(--branco);
+  font-weight: bold;
+  border: 2px solid var(--branco);
+  transition: 0.3s ease;
+}
+
+.hero a:hover {
+  color: var(--preto);
+  background: var(--branco);
+}
+
+main {
+  padding: 0 8% 100px;
+}
+
+main section {
+  padding-top: 90px;
+  scroll-margin-top: 70px;
+}
+
+#sobre p {
+  max-width: 640px;
+  font-size: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+}
+
+th, td {
+  padding: 16px 20px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--borda);
+}
+
+th {
+  color: var(--cinza);
+  font-weight: normal;
+  background: var(--preto);
+  border-bottom: 2px solid var(--cor);
+}
+
+#projetos article,
+#formacao li,
+form {
   padding: 24px;
   background: var(--card);
   border: 1px solid var(--borda);
   border-top: 4px solid var(--cor);
 }
 
-/* projetos: flexbox */
-#projetos { display: flex; flex-wrap: wrap; gap: 24px; }
-#projetos h3 { width: 100%; margin-bottom: 0; }
-#projetos article { flex: 1 1 280px; display: flex; flex-direction: column; gap: 12px; }
-#projetos p { color: var(--cinza); }
-#projetos ul { display: flex; flex-wrap: wrap; gap: 4px 14px; list-style: none; color: var(--cor); font-size: 14px; }
-#projetos a { color: var(--cor); font-weight: bold; }
+#projetos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
 
-/* experiência */
-#experiencia article { margin-bottom: 32px; padding-left: 24px; border-left: 4px solid var(--cor); }
-#experiencia ul { margin-left: 20px; color: var(--cinza); }
-time { display: block; color: var(--cor); font-size: 14px; font-weight: bold; }
+#projetos h3 {
+  width: 100%;
+  margin-bottom: 0;
+}
 
-/* formação: grid com 3 colunas */
-#formacao ul { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; list-style: none; }
-#formacao strong { display: block; }
-#formacao span { color: var(--cinza); }
+#projetos article {
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.3s ease;
+}
 
-/* formulário: flexbox */
-form { display: flex; flex-wrap: wrap; gap: 20px; }
-label { flex: 1 1 260px; display: flex; flex-direction: column; gap: 8px; font-weight: bold; }
-input, textarea { padding: 12px 14px; font-family: var(--fonte); font-size: 16px; color: var(--branco); background: var(--fundo); border: 1px solid var(--borda); }
-textarea { min-height: 140px; }
-form div { flex: 1 1 100%; display: flex; justify-content: flex-end; gap: 14px; }
-button { padding: 14px 28px; font-family: var(--fonte); font-size: 16px; font-weight: bold; color: #000; background: var(--amarelo); border: 0; cursor: pointer; }
+#projetos article:hover {
+  transform: translateY(-5px);
+}
 
-/* rodapé: flexbox */
-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px 24px; padding: 40px 8%; color: var(--cinza); background: var(--preto); border-top: 1px solid var(--borda); }
-footer a { font-weight: bold; }
+#projetos p {
+  color: var(--cinza);
+}
+
+#projetos ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  list-style: none;
+  color: var(--cor);
+  font-size: 14px;
+}
+
+#projetos a {
+  color: var(--cor);
+  font-weight: bold;
+}
+
+#experiencia article {
+  margin-bottom: 32px;
+  padding-left: 24px;
+  border-left: 4px solid var(--cor);
+}
+
+#experiencia ul {
+  margin-left: 20px;
+  color: var(--cinza);
+}
+
+time {
+  display: block;
+  color: var(--cor);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#formacao ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  list-style: none;
+}
+
+#formacao strong {
+  display: block;
+}
+
+#formacao span {
+  color: var(--cinza);
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+label {
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-family: var(--fonte);
+  font-size: 16px;
+  color: var(--branco);
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--azul);
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+form div {
+  flex: 1 1 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+button {
+  padding: 14px 28px;
+  font-family: var(--fonte);
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  background: var(--amarelo);
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #f0b34e;
+  transform: translateY(-2px);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 40px 8%;
+  color: var(--cinza);
+  background: var(--preto);
+  border-top: 1px solid var(--borda);
+}
+
+footer a {
+  font-weight: bold;
+}
+
+footer a:hover {
+  color: var(--branco);
+}
+
+@media (max-width: 768px) {
+  header {
+    justify-content: center;
+    text-align: center;
+    padding: 15px 5%;
+  }
+
+  nav {
+    justify-content: center;
+    gap: 8px 16px;
+  }
+
+  .hero {
+    justify-content: center;
+    text-align: center;
+    padding: 140px 6% 200px;
+  }
+
+  .hero h1 {
+    font-size: 12vw;
+  }
+
+  .hero p {
+    margin: auto;
+  }
+
+  .hero img {
+    width: 220px;
+  }
+
+  main {
+    padding: 0 6% 70px;
+  }
+
+  #formacao ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  table {
+    font-size: 15px;
+  }
+
+  th, td {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 15px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  nav a {
+    font-size: 13px;
+  }
+
+  .hero {
+    gap: 25px;
+    padding: 130px 5% 180px;
+  }
+
+  .hero h1 {
+    font-size: 13vw;
+  }
+
+  .hero h2 {
+    font-size: 20px;
+  }
+
+  .hero img {
+    width: 190px;
+  }
+
+  .hero svg {
+    height: 180px;
+  }
+
+  main {
+    padding: 0 5% 50px;
+  }
+
+  main section {
+    padding-top: 65px;
+  }
+
+  h3 {
+    font-size: 22px;
+  }
+
+  #sobre p {
+    font-size: 17px;
+  }
+
+  #formacao ul {
+    grid-template-columns: 1fr;
+  }
+
+  #projetos article {
+    flex-basis: 100%;
+  }
+
+  form {
+    padding: 18px;
+  }
+
+  form div {
+    justify-content: center;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  footer {
+    justify-content: center;
+    text-align: center;
+    padding: 30px 5%;
+  }
+    }
+    
