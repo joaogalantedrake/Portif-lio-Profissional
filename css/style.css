@@ -404,7 +404,6 @@ footer {
         padding: 20px;
     }
 }
-; }
 tbody tr:hover { background: var(--surface-2); }
 tbody tr:hover td:last-child { color: var(--text); }
 tbody tr:hover td:first-child { box-shadow: inset 4px 0 0 var(--accent); }
