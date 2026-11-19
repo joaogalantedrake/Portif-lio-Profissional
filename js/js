@@ -1,250 +1,31 @@
-(() => {
-  'use strict';
+// 1. máscara do WhatsApp: vai formatando como (11) 90000-0000
+const zap = document.querySelector("#zap");
 
-  const reduzMovimento = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ---------- Estilos que o JS precisa (não exige mexer no style.css) ---------- */
-  const estilo = document.createElement('style');
-  estilo.textContent = `
-    .reveal { opacity: 0; }
-    .reveal.visivel { animation: revelar .6s ease both; animation-delay: var(--atraso, 0s); }
-    @keyframes revelar { from { opacity: 0; translate: 0 24px; } to { opacity: 1; translate: 0 0; } }
-
-    header nav a.ativo { color: var(--amarelo); }
-
-    .erro { min-height: 1.2em; color: var(--vermelho); font-size: 14px; font-weight: normal; }
-    .contador { align-self: flex-end; color: var(--cinza); font-size: 13px; font-weight: normal; }
-    .contador.limite { color: var(--vermelho); }
-    input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--vermelho); }
-    input.valido, textarea.valido { border-color: var(--verde); }
-
-    button[disabled] { opacity: .6; cursor: wait; transform: none; }
-    button.carregando::after {
-      content: ""; display: inline-block; width: 14px; height: 14px; margin-left: 10px;
-      vertical-align: -2px; border: 2px solid #000; border-right-color: transparent;
-      border-radius: 50%; animation: girar .7s linear infinite;
-    }
-    @keyframes girar { to { rotate: 360deg; } }
-
-    #toasts { position: fixed; right: 20px; bottom: 20px; z-index: 30; display: grid; gap: 10px; }
-    .toast {
-      max-width: 320px; padding: 14px 18px; color: var(--branco);
-      background: var(--card); border: 1px solid var(--borda); border-left: 5px solid var(--verde);
-      box-shadow: 0 8px 24px rgba(0,0,0,.4); animation: revelar .3s ease both;
-    }
-    .toast.erro-toast { border-left-color: var(--vermelho); }
-
-    #topo {
-      position: fixed; right: 20px; bottom: 80px; z-index: 20; width: 46px; height: 46px;
-      padding: 0; font-size: 20px; opacity: 0; pointer-events: none; transition: opacity .3s ease;
-    }
-    #topo.mostrar { opacity: 1; pointer-events: auto; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; }
-      .reveal.visivel, .toast, button.carregando::after { animation: none; }
-    }
-  `;
-  document.head.appendChild(estilo);
-
-  /* ---------- Toast ---------- */
-  const caixaToasts = document.createElement('div');
-  caixaToasts.id = 'toasts';
-  caixaToasts.setAttribute('aria-live', 'polite');
-  document.body.appendChild(caixaToasts);
-
-  function toast(mensagem, tipo = 'ok') {
-    const el = document.createElement('div');
-    el.className = 'toast' + (tipo === 'erro' ? ' erro-toast' : '');
-    el.textContent = mensagem;
-    caixaToasts.appendChild(el);
-    setTimeout(() => el.remove(), 4500);
+zap.addEventListener("input", function () {
+  let n = zap.value.replace(/\D/g, "").slice(0, 11); // só números, no máximo 11
+  if (n.length > 7) {
+    n = "(" + n.slice(0, 2) + ") " + n.slice(2, 7) + "-" + n.slice(7);
+  } else if (n.length > 2) {
+    n = "(" + n.slice(0, 2) + ") " + n.slice(2);
   }
+  zap.value = n;
+});
 
-  /* ---------- Scroll reveal ---------- */
-  const alvos = document.querySelectorAll(
-    'main section > h3, table, #projetos article, #experiencia article, #formacao li, #sobre p, form'
-  );
-  if ('IntersectionObserver' in window && !reduzMovimento) {
-    const observador = new IntersectionObserver((entradas, obs) => {
-      entradas.forEach(({ target, isIntersecting }) => {
-        if (!isIntersecting) return;
-        target.classList.add('visivel');
-        obs.unobserve(target);
-      });
-    }, { threshold: 0.15 });
+// 2. ao enviar o formulário: mostra um aviso e limpa os campos
+// (só simula, não manda a mensagem pra lugar nenhum)
+const form = document.querySelector("form");
 
-    alvos.forEach((el, i) => {
-      el.classList.add('reveal');
-      el.style.setProperty('--atraso', `${(i % 3) * 0.08}s`);
-      observador.observe(el);
-    });
-  }
+form.addEventListener("submit", function (e) {
+  e.preventDefault(); // impede a página de recarregar
 
-  /* ---------- Link ativo no menu conforme a seção visível ---------- */
-  const linksMenu = document.querySelectorAll('header nav a');
-  const secoes = document.querySelectorAll('main section[id]');
-  if ('IntersectionObserver' in window) {
-    const obsMenu = new IntersectionObserver((entradas) => {
-      entradas.forEach(({ target, isIntersecting }) => {
-        if (!isIntersecting) return;
-        linksMenu.forEach(a => a.classList.toggle('ativo', a.getAttribute('href') === `#${target.id}`));
-      });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-    secoes.forEach(s => obsMenu.observe(s));
-  }
+  const nome = document.querySelector("#nome").value;
+  const aviso = document.createElement("p");
+  aviso.className = "aviso";
+  aviso.textContent = "Obrigado, " + nome + "! Recebi sua mensagem.";
+  form.appendChild(aviso);
+  form.reset();
 
-  /* ---------- Botão voltar ao topo ---------- */
-  const botaoTopo = document.createElement('button');
-  botaoTopo.id = 'topo';
-  botaoTopo.type = 'button';
-  botaoTopo.setAttribute('aria-label', 'Voltar ao topo');
-  botaoTopo.textContent = '↑';
-  document.body.appendChild(botaoTopo);
-
-  let aguardandoFrame = false;
-  addEventListener('scroll', () => {
-    if (aguardandoFrame) return;
-    aguardandoFrame = true;
-    requestAnimationFrame(() => {
-      botaoTopo.classList.toggle('mostrar', scrollY > 500);
-      aguardandoFrame = false;
-    });
-  }, { passive: true });
-
-  botaoTopo.addEventListener('click', () => {
-    scrollTo({ top: 0, behavior: reduzMovimento ? 'auto' : 'smooth' });
-  });
-
-  /* ---------- Formulário ---------- */
-  const form = document.querySelector('#contato form');
-  if (!form) return;
-
-  const campos = {
-    nome: form.querySelector('#nome'),
-    email: form.querySelector('#g-mail'),
-    zap: form.querySelector('#zap'),
-    empresa: form.querySelector('#empresa'),
-    mensagem: form.querySelector('#mensagem'),
-  };
-
-  const LIMITE_MENSAGEM = 500;
-  campos.mensagem.maxLength = LIMITE_MENSAGEM;
-  campos.zap.maxLength = 15;
-  campos.zap.placeholder = '(11) 91234-5678';
-  campos.zap.inputMode = 'tel';
-
-  const regras = {
-    nome: v => v.trim().length >= 3 || 'Digite seu nome completo (mínimo 3 letras).',
-    email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Digite um e-mail válido.',
-    zap: v => {
-      const n = v.replace(/\D/g, '');
-      return (n.length === 10 || n.length === 11) || 'Digite o DDD e o número (10 ou 11 dígitos).';
-    },
-    empresa: v => v.trim().length >= 2 || 'Informe o nome da empresa.',
-    mensagem: v => v.trim().length >= 10 || 'Escreva pelo menos 10 caracteres.',
-  };
-
-  // Cria o espaço da mensagem de erro de cada campo
-  Object.values(campos).forEach(campo => {
-    const erro = document.createElement('small');
-    erro.className = 'erro';
-    erro.id = `erro-${campo.id}`;
-    erro.setAttribute('role', 'alert');
-    campo.setAttribute('aria-describedby', erro.id);
-    campo.closest('label').appendChild(erro);
-  });
-
-  // Contador de caracteres
-  const contador = document.createElement('span');
-  contador.className = 'contador';
-  campos.mensagem.closest('label').insertBefore(contador, campos.mensagem.nextSibling);
-
-  function atualizarContador() {
-    const usados = campos.mensagem.value.length;
-    contador.textContent = `${usados}/${LIMITE_MENSAGEM}`;
-    contador.classList.toggle('limite', usados >= LIMITE_MENSAGEM - 20);
-  }
-
-  // Máscara de WhatsApp: (11) 91234-5678 ou (11) 1234-5678
-  function mascaraTelefone(valor) {
-    const n = valor.replace(/\D/g, '').slice(0, 11);
-    if (n.length <= 2) return n ? `(${n}` : '';
-    if (n.length <= 6) return `(${n.slice(0, 2)}) ${n.slice(2)}`;
-    if (n.length <= 10) return `(${n.slice(0, 2)}) ${n.slice(2, 6)}-${n.slice(6)}`;
-    return `(${n.slice(0, 2)}) ${n.slice(2, 7)}-${n.slice(7)}`;
-  }
-
-  function validar(chave) {
-    const campo = campos[chave];
-    const resultado = regras[chave](campo.value);
-    const valido = resultado === true;
-    campo.setAttribute('aria-invalid', String(!valido));
-    campo.classList.toggle('valido', valido);
-    document.getElementById(`erro-${campo.id}`).textContent = valido ? '' : resultado;
-    return valido;
-  }
-
-  function limparEstado(campo) {
-    campo.removeAttribute('aria-invalid');
-    campo.classList.remove('valido');
-    document.getElementById(`erro-${campo.id}`).textContent = '';
-  }
-
-  Object.entries(campos).forEach(([chave, campo]) => {
-    let tocado = false;
-    campo.addEventListener('blur', () => { tocado = true; validar(chave); });
-    campo.addEventListener('input', () => {
-      if (chave === 'zap') campo.value = mascaraTelefone(campo.value);
-      if (chave === 'mensagem') atualizarContador();
-      if (tocado) validar(chave); // depois do primeiro blur, valida enquanto digita
-    });
-    form.addEventListener('reset', () => { tocado = false; });
-  });
-
-  form.addEventListener('reset', () => {
-    Object.values(campos).forEach(limparEstado);
-    setTimeout(atualizarContador, 0);
-  });
-
-  const botaoEnviar = form.querySelector('button[type="submit"]');
-  const textoOriginal = botaoEnviar.textContent;
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const resultados = Object.keys(campos).map(validar);
-    const primeiroInvalido = Object.values(campos).find(c => c.getAttribute('aria-invalid') === 'true');
-    if (primeiroInvalido) {
-      primeiroInvalido.focus();
-      toast('Corrija os campos destacados.', 'erro');
-      return;
-    }
-
-    botaoEnviar.disabled = true;
-    botaoEnviar.classList.add('carregando');
-    botaoEnviar.textContent = 'Enviando';
-
-    try {
-      const dados = Object.fromEntries(new FormData(form));
-      const resposta = await fetch(form.action, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(dados),
-      });
-      if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
-
-      toast('Mensagem enviada! Responderei em breve.');
-      form.reset();
-    } catch (erro) {
-      console.error('Falha ao enviar o formulário:', erro);
-      toast('Não consegui enviar agora. Tente de novo ou use o e-mail do rodapé.', 'erro');
-    } finally {
-      botaoEnviar.disabled = false;
-      botaoEnviar.classList.remove('carregando');
-      botaoEnviar.textContent = textoOriginal;
-    }
-  });
-
-  atualizarContador();
-})();
+  setTimeout(function () {
+    aviso.remove(); // some depois de 4 segundos
+  }, 4000);
+});
