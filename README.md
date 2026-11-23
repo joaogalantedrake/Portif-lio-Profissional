@@ -36,6 +36,10 @@ Habilidades: Tecnologias e conhecimentos técnicos.
 Projetos: Demonstração de projetos desenvolvidos.
 Contato: Simulação de canais de comunicação profissional.
 
+integrantes do grupo
+
+Kauan souza okuno, Eric Malvezzi Martins Pereira, Renan mendes Castilho, Wesley veira, João Galante
+
  Tecnologias Utilizadas
 HTML5
 CSS3
