@@ -74,6 +74,11 @@ form div{flex:1 1 100%;display:flex;justify-content:flex-end;gap:14px}
 button{padding:14px 28px;font:bold 16px var(--fonte);color:#000;background:var(--amarelo);border:0;cursor:pointer}
 footer{gap:12px 24px;padding:40px 8%;color:var(--claro);background:var(--preto);border-top:4px solid var(--amarelo)}
 footer a{font-weight:bold}
+
+/* botão voltar ao topo (o JS mostra/esconde) */
+#btnTopo{display:none;position:fixed;right:24px;bottom:24px;z-index:10;width:48px;height:48px;padding:0;font-size:22px;line-height:1;color:#000;background:var(--amarelo);border:2px solid var(--preto)}
+#btnTopo:hover{color:var(--amarelo);background:var(--preto)}
+
 /* CELULAR */
 /* animação da foto da Experiência: flutua, brilha e passa um scanner */
 @keyframes flutuar{50%{transform:translateY(-10px)}}
