@@ -29,3 +29,21 @@ form.addEventListener("submit", function (e) {
     aviso.remove(); // some depois de 4 segundos
   }, 4000);
 });
+
+// 3. botão voltar ao topo
+const btnTopo = document.querySelector("#btnTopo");
+
+window.addEventListener("scroll", function () {
+  if (window.scrollY > 400) {
+    btnTopo.style.display = "block";
+  } else {
+    btnTopo.style.display = "none";
+  }
+});
+
+btnTopo.addEventListener("click", function () {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
